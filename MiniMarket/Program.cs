@@ -1,7 +1,9 @@
 using System;
 using System.Windows.Forms;
 
-namespace DorduncuUygulama
+[assembly: System.Runtime.Versioning.SupportedOSPlatform("windows")]
+
+namespace MiniMarket
 {
     static class Program
     {

@@ -1,9 +1,0 @@
-C:\Users\PC\source\repos\DorduncuUygulama\DorduncuUygulama\bin\Debug\DorduncuUygulama.exe.config
-C:\Users\PC\source\repos\DorduncuUygulama\DorduncuUygulama\bin\Debug\DorduncuUygulama.exe
-C:\Users\PC\source\repos\DorduncuUygulama\DorduncuUygulama\bin\Debug\DorduncuUygulama.pdb
-C:\Users\PC\source\repos\DorduncuUygulama\DorduncuUygulama\obj\Debug\DorduncuUygulama.csprojAssemblyReference.cache
-C:\Users\PC\source\repos\DorduncuUygulama\DorduncuUygulama\obj\Debug\DorduncuUygulama.Form1.resources
-C:\Users\PC\source\repos\DorduncuUygulama\DorduncuUygulama\obj\Debug\DorduncuUygulama.Properties.Resources.resources
-C:\Users\PC\source\repos\DorduncuUygulama\DorduncuUygulama\obj\Debug\DorduncuUygulama.csproj.GenerateResource.cache
-C:\Users\PC\source\repos\DorduncuUygulama\DorduncuUygulama\obj\Debug\DorduncuUygulama.exe
-C:\Users\PC\source\repos\DorduncuUygulama\DorduncuUygulama\obj\Debug\DorduncuUygulama.pdb

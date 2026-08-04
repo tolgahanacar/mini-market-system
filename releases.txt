@@ -1,8 +1,0 @@
-v1.0.1 (Nov 5, 2021)
-- Removed negative test effects from workflows and actions.
-
-v1.0.1 (Nov 5, 2021)
-- Github Action tests
-
-v1.0.0 (Jan 12, 2021)
-- Initial release, update and release
