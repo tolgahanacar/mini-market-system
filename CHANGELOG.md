@@ -1,5 +1,15 @@
 # Changelog
 
+## v2.1.0 (August 4, 2026)
+- **Clean Architecture & Services Layer**: UI mantığı `ProductService`, `WalletService`, `CartService`, `ReceiptService` ve `JsonStorageService` katmanlarına ayrıştırıldı.
+- **JSON Persistence (Kalıcı Veri)**: Ürünler, bakiye ve işlem geçmişi otomatik olarak JSON dosyalarına kaydediliyor; uygulama yeniden başlatıldığında veriler korunuyor.
+- **İşlem Geçmişi (Transaction History)**: Tamamlanan tüm siparişler tarih, sepet içeriği ve ödeme detaylarıyla kaydediliyor ve `HistoryForm` üzerinden incelenebiliyor.
+- **Gelişmiş Fiş Gösterici (Receipt Dialog)**: Satın alma fişleri özel modal pencerede (`ReceiptForm`) gösteriliyor; panoya kopyalanabilir veya `.txt` dosyası olarak kaydedilebilir.
+- **Ürün Arama & Kataloğa Ürün Ekleme**: Arayüze anlık ürün arama (filtreleme) ve dinamik olarak yeni ürün ekleme penceresi (`AddProductForm`) dahil edildi.
+- **Unit Tests**: `MiniMarket.Tests` (xUnit) projesi eklenerek sepet, bakiye, ürün yönetimi ve fiş servisleri otomatik testlerle koruma altına alındı.
+
+---
+
 ## v2.0.0 (August 4, 2026)
 - **Architecture**: Tamamen OOP (Nesne Yönelimli) mimariyle yeniden yazıldı. UI ve iş mantığı (Models) ayrıştırıldı.
 - **UI/UX**: Eski, karmaşık TextBox yığını kaldırılarak yerine çok daha pratik ve temiz `DataGridView` tabloları eklendi. Buton ikonları ve arkaplan görselleri iyileştirildi.
