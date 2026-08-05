@@ -57,20 +57,8 @@ namespace MiniMarket.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        
-        internal static System.Drawing.Bitmap delete_icon_alt {
-            get {
-                object obj = ResourceManager.GetObject("delete_icon_alt", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap background_alt {
-            get {
-                object obj = ResourceManager.GetObject("background_alt", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
+
+
         
         internal static System.Drawing.Bitmap background_main {
             get {

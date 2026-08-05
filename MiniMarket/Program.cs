@@ -1,21 +1,39 @@
 using System;
 using System.Windows.Forms;
+using Microsoft.Extensions.DependencyInjection;
+using MiniMarket.Services;
 
 [assembly: System.Runtime.Versioning.SupportedOSPlatform("windows")]
 
 namespace MiniMarket
 {
-    static class Program
+    internal static class Program
     {
-        /// <summary>
-        /// Main entry point for the application.
-        /// </summary>
+        public static IServiceProvider ServiceProvider { get; private set; } = null!;
+
         [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+
+            var services = new ServiceCollection();
+            ConfigureServices(services);
+            ServiceProvider = services.BuildServiceProvider();
+
+            var mainForm = ServiceProvider.GetRequiredService<MainForm>();
+            Application.Run(mainForm);
+        }
+
+        private static void ConfigureServices(ServiceCollection services)
+        {
+            services.AddSingleton<IStorageService, JsonStorageService>();
+            services.AddSingleton<ProductService>();
+            services.AddSingleton<WalletService>();
+            services.AddSingleton<CartService>();
+            services.AddSingleton<ReceiptService>();
+
+            services.AddTransient<MainForm>();
         }
     }
 }

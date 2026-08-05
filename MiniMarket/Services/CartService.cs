@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using MiniMarket.Models;
 
-namespace MiniMarket.Services
+namespace MiniMarket.Services;
+
+public class CartService
 {
-    public class CartService
-    {
-        private readonly List<CartItem> _items = new List<CartItem>();
+    private readonly List<CartItem> _items = [];
 
         public IReadOnlyList<CartItem> Items => _items.AsReadOnly();
 
@@ -32,9 +32,22 @@ namespace MiniMarket.Services
             return _items.Remove(item);
         }
 
+        public bool DecreaseQuantity(CartItem item)
+        {
+            if (item == null) return false;
+            var existing = _items.FirstOrDefault(i => i.Product.Id == item.Product.Id);
+            if (existing == null) return false;
+
+            existing.Quantity--;
+            if (existing.Quantity <= 0)
+            {
+                _items.Remove(existing);
+            }
+            return true;
+        }
+
         public void Clear()
         {
             _items.Clear();
         }
-    }
 }

@@ -4,16 +4,16 @@ using System.Windows.Forms;
 using MiniMarket.Models;
 using MiniMarket.Services;
 
-namespace MiniMarket
+namespace MiniMarket;
+
+public class AddProductForm : Form
 {
-    public class AddProductForm : Form
-    {
         private readonly ProductService _productService;
 
         private Label _lblCategory = null!;
         private Label _lblName = null!;
         private Label _lblPrice = null!;
-        private TextBox _txtCategory = null!;
+        private ComboBox _cbCategory = null!;
         private TextBox _txtName = null!;
         private NumericUpDown _nudPrice = null!;
         private Button _btnAdd = null!;
@@ -40,7 +40,9 @@ namespace MiniMarket
             _txtName = new TextBox { Location = new Point(100, 17), Size = new Size(180, 22) };
 
             _lblCategory = new Label { Text = "Kategori:", Location = new Point(20, 60), AutoSize = true };
-            _txtCategory = new TextBox { Location = new Point(100, 57), Size = new Size(180, 22), Text = "Genel" };
+            _cbCategory = new ComboBox { Location = new Point(100, 57), Size = new Size(180, 22), DropDownStyle = ComboBoxStyle.DropDown };
+            _cbCategory.Items.AddRange(_productService.GetCategories().ToArray());
+            _cbCategory.Text = "Genel";
 
             _lblPrice = new Label { Text = "Fiyat (₺):", Location = new Point(20, 100), AutoSize = true };
             _nudPrice = new NumericUpDown
@@ -62,7 +64,7 @@ namespace MiniMarket
             this.Controls.Add(_lblName);
             this.Controls.Add(_txtName);
             this.Controls.Add(_lblCategory);
-            this.Controls.Add(_txtCategory);
+            this.Controls.Add(_cbCategory);
             this.Controls.Add(_lblPrice);
             this.Controls.Add(_nudPrice);
             this.Controls.Add(_btnAdd);
@@ -72,7 +74,7 @@ namespace MiniMarket
         private void BtnAdd_Click(object? sender, EventArgs e)
         {
             string name = _txtName.Text.Trim();
-            string category = _txtCategory.Text.Trim();
+            string category = _cbCategory.Text.Trim();
             decimal price = _nudPrice.Value;
 
             if (string.IsNullOrWhiteSpace(name))
@@ -86,5 +88,4 @@ namespace MiniMarket
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
-    }
 }

@@ -1,33 +1,31 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using MiniMarket.Models;
 using MiniMarket.Services;
 
-namespace MiniMarket
+namespace MiniMarket;
+
+public partial class MainForm : Form
 {
-    public partial class Form1 : Form
-    {
-        private readonly IStorageService _storageService;
+
         private readonly ProductService _productService;
         private readonly WalletService _walletService;
         private readonly CartService _cartService;
         private readonly ReceiptService _receiptService;
 
-        public Form1()
+        public MainForm(ProductService productService, WalletService walletService, CartService cartService, ReceiptService receiptService)
         {
             InitializeComponent();
 
-            _storageService = new JsonStorageService();
-            _productService = new ProductService(_storageService);
-            _walletService = new WalletService(_storageService);
-            _cartService = new CartService();
-            _receiptService = new ReceiptService(_storageService);
+            _productService = productService;
+            _walletService = walletService;
+            _cartService = cartService;
+            _receiptService = receiptService;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
             // Setup icons dynamically to fit buttons perfectly
             try
@@ -142,6 +140,29 @@ namespace MiniMarket
             }
         }
 
+        private void btnDeleteProduct_Click(object sender, EventArgs e)
+        {
+            if (dgvProducts.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Lütfen silinecek ürünü seçiniz.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var selectedProduct = (Product)dgvProducts.SelectedRows[0].DataBoundItem;
+            var result = MessageBox.Show(
+                $"'{selectedProduct.Name}' ürünü kalıcı olarak silinecek.\nDevam etmek istiyor musunuz?",
+                "Ürün Silme Onayı",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                _productService.DeleteProduct(selectedProduct.Id);
+                RefreshProductGrid(txtSearch.Text);
+                MessageBox.Show("Ürün başarıyla silindi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
         private void btnAdd_Click(object sender, EventArgs e)
         {
             if (dgvProducts.SelectedRows.Count == 0)
@@ -169,6 +190,19 @@ namespace MiniMarket
 
             var selectedCartItem = (CartItem)dgvCart.SelectedRows[0].DataBoundItem;
             _cartService.RemoveItem(selectedCartItem);
+            RefreshCartGrid();
+        }
+
+        private void btnDecreaseQuantity_Click(object sender, EventArgs e)
+        {
+            if (dgvCart.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Lütfen miktarı azaltılacak ürünü seçiniz.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var selectedCartItem = (CartItem)dgvCart.SelectedRows[0].DataBoundItem;
+            _cartService.DecreaseQuantity(selectedCartItem);
             RefreshCartGrid();
         }
 
@@ -232,5 +266,4 @@ namespace MiniMarket
             using var historyForm = new HistoryForm(_receiptService);
             historyForm.ShowDialog(this);
         }
-    }
 }

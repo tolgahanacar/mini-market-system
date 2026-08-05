@@ -4,16 +4,11 @@ using System.Linq;
 using System.Text;
 using MiniMarket.Models;
 
-namespace MiniMarket.Services
-{
-    public class ReceiptService
-    {
-        private readonly IStorageService _storageService;
+namespace MiniMarket.Services;
 
-        public ReceiptService(IStorageService storageService)
-        {
-            _storageService = storageService;
-        }
+public class ReceiptService(IStorageService storageService)
+{
+    private readonly IStorageService _storageService = storageService;
 
         public SaleTransaction ProcessCheckout(IReadOnlyList<CartItem> cartItems, decimal paidTotal, decimal previousBalance, decimal remainingBalance)
         {
@@ -32,7 +27,7 @@ namespace MiniMarket.Services
                 }).ToList()
             };
 
-            transaction.ReceiptText = GenerateReceiptText(transaction);
+            transaction = transaction with { ReceiptText = GenerateReceiptText(transaction) };
 
             // Save transaction history
             var history = _storageService.LoadTransactions();
@@ -83,5 +78,4 @@ namespace MiniMarket.Services
         {
             return _storageService.LoadTransactions();
         }
-    }
 }

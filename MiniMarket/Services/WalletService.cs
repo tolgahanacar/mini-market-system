@@ -1,18 +1,11 @@
 using System;
-using MiniMarket.Services;
 
-namespace MiniMarket.Services
+namespace MiniMarket.Services;
+
+public class WalletService(IStorageService storageService)
 {
-    public class WalletService
-    {
-        private readonly IStorageService _storageService;
-        private decimal _balance;
-
-        public WalletService(IStorageService storageService)
-        {
-            _storageService = storageService;
-            _balance = _storageService.LoadBalance();
-        }
+    private readonly IStorageService _storageService = storageService;
+    private decimal _balance = storageService.LoadBalance();
 
         public decimal Balance => _balance;
 
@@ -36,5 +29,4 @@ namespace MiniMarket.Services
             _storageService.SaveBalance(_balance);
             return true;
         }
-    }
 }

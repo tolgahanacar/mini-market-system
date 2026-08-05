@@ -13,4 +13,7 @@
     <Authors>Tolgahan Acar</Authors>
     <Company>MiniMarket System</Company>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.10" />
+  </ItemGroup>
 </Project>

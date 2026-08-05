@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using MiniMarket.Models;
 using MiniMarket.Services;
 using Xunit;
@@ -68,33 +69,120 @@ namespace MiniMarket.Tests
             Assert.Single(results);
             Assert.Equal("Coca Cola", results[0].Name);
         }
-    }
 
-    public class ReceiptServiceTests
-    {
         [Fact]
-        public void ProcessCheckout_ShouldGenerateReceiptAndSaveTransaction()
+        public void DeleteProduct_ShouldRemoveProduct()
         {
             // Arrange
-            var storage = new FakeStorageService();
-            var receiptService = new ReceiptService(storage);
-            var cartItems = new List<CartItem>
+            var storage = new FakeStorageService
             {
-                new CartItem { Product = new Product { Id = 1, Name = "Hamburger", Price = 25m }, Quantity = 2 }
+                Products = new List<Product>
+                {
+                    new Product { Id = 1, Name = "Hamburger", Price = 22m, Category = "Yiyecek" },
+                    new Product { Id = 2, Name = "Su", Price = 3m, Category = "İçecek" }
+                }
             };
+            var productService = new ProductService(storage);
 
             // Act
-            var transaction = receiptService.ProcessCheckout(cartItems, 50m, 100m, 50m);
+            bool deleted = productService.DeleteProduct(1);
 
             // Assert
-            Assert.NotNull(transaction);
-            Assert.Equal(50m, transaction.TotalAmount);
-            Assert.Equal(100m, transaction.PreviousBalance);
-            Assert.Equal(50m, transaction.RemainingBalance);
-            Assert.Contains("Hamburger", transaction.ReceiptText);
-            Assert.Contains("Ara Toplam", transaction.ReceiptText);
-            Assert.Contains("KDV", transaction.ReceiptText);
-            Assert.Single(storage.Transactions);
+            Assert.True(deleted);
+            Assert.Single(storage.Products);
+            Assert.Equal("Su", storage.Products[0].Name);
+        }
+
+        [Fact]
+        public void DeleteProduct_NonExistentId_ShouldReturnFalse()
+        {
+            // Arrange
+            var storage = new FakeStorageService
+            {
+                Products = new List<Product>
+                {
+                    new Product { Id = 1, Name = "Hamburger", Price = 22m }
+                }
+            };
+            var productService = new ProductService(storage);
+
+            // Act
+            bool deleted = productService.DeleteProduct(999);
+
+            // Assert
+            Assert.False(deleted);
+            Assert.Single(storage.Products);
+        }
+
+        [Fact]
+        public void SearchProducts_EmptyKeyword_ShouldReturnAll()
+        {
+            // Arrange
+            var storage = new FakeStorageService
+            {
+                Products = new List<Product>
+                {
+                    new Product { Id = 1, Name = "Hamburger" },
+                    new Product { Id = 2, Name = "Su" },
+                    new Product { Id = 3, Name = "Coca Cola" }
+                }
+            };
+            var productService = new ProductService(storage);
+
+            // Act
+            var results = productService.SearchProducts("");
+
+            // Assert
+            Assert.Equal(3, results.Count);
+        }
+
+        [Fact]
+        public void SearchProducts_ByCategory_ShouldFilterCorrectly()
+        {
+            // Arrange
+            var storage = new FakeStorageService
+            {
+                Products = new List<Product>
+                {
+                    new Product { Id = 1, Name = "Hamburger", Category = "Yiyecek" },
+                    new Product { Id = 2, Name = "Coca Cola", Category = "İçecek" },
+                    new Product { Id = 3, Name = "Su", Category = "İçecek" }
+                }
+            };
+            var productService = new ProductService(storage);
+
+            // Act
+            var results = productService.SearchProducts("İçecek");
+
+            // Assert
+            Assert.Equal(2, results.Count);
+        }
+
+        [Fact]
+        public void GetCategories_ShouldReturnDistinctCategoriesAndDefaults()
+        {
+            // Arrange
+            var storage = new FakeStorageService
+            {
+                Products = new List<Product>
+                {
+                    new Product { Id = 1, Name = "Elma", Category = "Meyve" },
+                    new Product { Id = 2, Name = "Armut", Category = "Meyve" },
+                    new Product { Id = 3, Name = "Kola", Category = "İçecek" }
+                }
+            };
+            var productService = new ProductService(storage);
+
+            // Act
+            var categories = productService.GetCategories();
+
+            // Assert
+            Assert.Contains("Meyve", categories);
+            Assert.Contains("Yiyecek", categories); // Default
+            Assert.Contains("İçecek", categories); // From product and Default
+            Assert.Contains("Tatlı", categories); // Default
+            Assert.Contains("Genel", categories); // Default
+            Assert.Equal(categories.Count, categories.Distinct().Count()); // Ensure no duplicates
         }
     }
 }

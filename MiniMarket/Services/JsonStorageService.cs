@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using MiniMarket.Models;
 
-namespace MiniMarket.Services
+namespace MiniMarket.Services;
+
+public class JsonStorageService : IStorageService
 {
-    public class JsonStorageService : IStorageService
-    {
         private readonly string _dataDir;
         private readonly string _productsFile;
         private readonly string _balanceFile;
@@ -40,7 +41,10 @@ namespace MiniMarket.Services
                     if (products != null && products.Count > 0) return products;
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[JsonStorageService] Ürünler yüklenirken hata: {ex.Message}");
+            }
 
             // Default seed products if file doesn't exist or is invalid
             var seedProducts = GetDefaultProducts();
@@ -55,7 +59,10 @@ namespace MiniMarket.Services
                 string json = JsonSerializer.Serialize(products, _jsonOptions);
                 File.WriteAllText(_productsFile, json);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[JsonStorageService] Ürünler kaydedilirken hata: {ex.Message}");
+            }
         }
 
         public decimal LoadBalance()
@@ -68,7 +75,10 @@ namespace MiniMarket.Services
                     return JsonSerializer.Deserialize<decimal>(json, _jsonOptions);
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[JsonStorageService] Bakiye yüklenirken hata: {ex.Message}");
+            }
 
             return 0m;
         }
@@ -80,7 +90,10 @@ namespace MiniMarket.Services
                 string json = JsonSerializer.Serialize(balance, _jsonOptions);
                 File.WriteAllText(_balanceFile, json);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[JsonStorageService] Bakiye kaydedilirken hata: {ex.Message}");
+            }
         }
 
         public List<SaleTransaction> LoadTransactions()
@@ -94,9 +107,12 @@ namespace MiniMarket.Services
                     if (transactions != null) return transactions;
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[JsonStorageService] İşlem geçmişi yüklenirken hata: {ex.Message}");
+            }
 
-            return new List<SaleTransaction>();
+            return [];
         }
 
         public void SaveTransactions(List<SaleTransaction> transactions)
@@ -106,19 +122,21 @@ namespace MiniMarket.Services
                 string json = JsonSerializer.Serialize(transactions, _jsonOptions);
                 File.WriteAllText(_transactionsFile, json);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[JsonStorageService] İşlem geçmişi kaydedilirken hata: {ex.Message}");
+            }
         }
 
         public static List<Product> GetDefaultProducts()
         {
-            return new List<Product>
-            {
+            return
+            [
                 new Product { Id = 1, Name = "Hamburger", Price = 22m, Category = "Yiyecek" },
                 new Product { Id = 2, Name = "Patates Kızartması", Price = 13m, Category = "Yiyecek" },
                 new Product { Id = 3, Name = "Coca Cola", Price = 6m, Category = "İçecek" },
                 new Product { Id = 4, Name = "Su", Price = 3m, Category = "İçecek" },
                 new Product { Id = 5, Name = "Tatlı", Price = 9m, Category = "Tatlı" }
-            };
+            ];
         }
     }
-}

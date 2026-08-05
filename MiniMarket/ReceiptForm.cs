@@ -4,10 +4,10 @@ using System.IO;
 using System.Windows.Forms;
 using MiniMarket.Models;
 
-namespace MiniMarket
+namespace MiniMarket;
+
+public class ReceiptForm : Form
 {
-    public class ReceiptForm : Form
-    {
         private readonly SaleTransaction _transaction;
         private TextBox _txtReceipt = null!;
         private Button _btnCopy = null!;
@@ -86,5 +86,4 @@ namespace MiniMarket
             this.Controls.Add(_btnSave);
             this.Controls.Add(_btnClose);
         }
-    }
 }

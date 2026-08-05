@@ -1,6 +1,6 @@
 namespace MiniMarket
 {
-    partial class Form1
+    partial class MainForm
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -24,9 +24,11 @@ namespace MiniMarket
             this.nudQuantity = new System.Windows.Forms.NumericUpDown();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnEditProduct = new System.Windows.Forms.Button();
+            this.btnDeleteProduct = new System.Windows.Forms.Button();
             this.groupBoxCart = new System.Windows.Forms.GroupBox();
             this.dgvCart = new System.Windows.Forms.DataGridView();
             this.btnRemove = new System.Windows.Forms.Button();
+            this.btnDecreaseQuantity = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.labelTotal = new System.Windows.Forms.Label();
             this.txtTotal = new System.Windows.Forms.TextBox();
@@ -49,6 +51,7 @@ namespace MiniMarket
             // groupBoxProducts
             // 
             this.groupBoxProducts.BackColor = System.Drawing.Color.Transparent;
+            this.groupBoxProducts.Controls.Add(this.btnDeleteProduct);
             this.groupBoxProducts.Controls.Add(this.btnEditProduct);
             this.groupBoxProducts.Controls.Add(this.labelSearch);
             this.groupBoxProducts.Controls.Add(this.txtSearch);
@@ -126,7 +129,7 @@ namespace MiniMarket
             // 
             this.btnAdd.Location = new System.Drawing.Point(105, 236);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(115, 25);
+            this.btnAdd.Size = new System.Drawing.Size(80, 25);
             this.btnAdd.TabIndex = 6;
             this.btnAdd.Text = "Sepete Ekle";
             this.btnAdd.UseVisualStyleBackColor = true;
@@ -134,13 +137,23 @@ namespace MiniMarket
             // 
             // btnEditProduct
             // 
-            this.btnEditProduct.Location = new System.Drawing.Point(226, 236);
+            this.btnEditProduct.Location = new System.Drawing.Point(191, 236);
             this.btnEditProduct.Name = "btnEditProduct";
-            this.btnEditProduct.Size = new System.Drawing.Size(118, 25);
+            this.btnEditProduct.Size = new System.Drawing.Size(75, 25);
             this.btnEditProduct.TabIndex = 7;
             this.btnEditProduct.Text = "✏️ Düzenle";
             this.btnEditProduct.UseVisualStyleBackColor = true;
             this.btnEditProduct.Click += new System.EventHandler(this.btnEditProduct_Click);
+            // 
+            // btnDeleteProduct
+            // 
+            this.btnDeleteProduct.Location = new System.Drawing.Point(272, 236);
+            this.btnDeleteProduct.Name = "btnDeleteProduct";
+            this.btnDeleteProduct.Size = new System.Drawing.Size(72, 25);
+            this.btnDeleteProduct.TabIndex = 8;
+            this.btnDeleteProduct.Text = "🗑️ Sil";
+            this.btnDeleteProduct.UseVisualStyleBackColor = true;
+            this.btnDeleteProduct.Click += new System.EventHandler(this.btnDeleteProduct_Click);
             // 
             // groupBoxCart
             // 
@@ -150,6 +163,7 @@ namespace MiniMarket
             this.groupBoxCart.Controls.Add(this.txtTotal);
             this.groupBoxCart.Controls.Add(this.btnCheckout);
             this.groupBoxCart.Controls.Add(this.btnClear);
+            this.groupBoxCart.Controls.Add(this.btnDecreaseQuantity);
             this.groupBoxCart.Controls.Add(this.btnRemove);
             this.groupBoxCart.Controls.Add(this.dgvCart);
             this.groupBoxCart.Location = new System.Drawing.Point(380, 12);
@@ -177,7 +191,7 @@ namespace MiniMarket
             this.btnRemove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRemove.Location = new System.Drawing.Point(6, 216);
             this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(85, 35);
+            this.btnRemove.Size = new System.Drawing.Size(60, 35);
             this.btnRemove.TabIndex = 1;
             this.btnRemove.Text = "Sil";
             this.btnRemove.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -185,13 +199,23 @@ namespace MiniMarket
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
+            // btnDecreaseQuantity
+            // 
+            this.btnDecreaseQuantity.Location = new System.Drawing.Point(72, 216);
+            this.btnDecreaseQuantity.Name = "btnDecreaseQuantity";
+            this.btnDecreaseQuantity.Size = new System.Drawing.Size(70, 35);
+            this.btnDecreaseQuantity.TabIndex = 2;
+            this.btnDecreaseQuantity.Text = "- Adet";
+            this.btnDecreaseQuantity.UseVisualStyleBackColor = true;
+            this.btnDecreaseQuantity.Click += new System.EventHandler(this.btnDecreaseQuantity_Click);
+            // 
             // btnClear
             // 
             this.btnClear.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnClear.Location = new System.Drawing.Point(97, 216);
+            this.btnClear.Location = new System.Drawing.Point(148, 216);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(85, 35);
-            this.btnClear.TabIndex = 2;
+            this.btnClear.Size = new System.Drawing.Size(70, 35);
+            this.btnClear.TabIndex = 3;
             this.btnClear.Text = "Temizle";
             this.btnClear.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnClear.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -204,7 +228,7 @@ namespace MiniMarket
             this.labelTotal.Location = new System.Drawing.Point(220, 221);
             this.labelTotal.Name = "labelTotal";
             this.labelTotal.Size = new System.Drawing.Size(45, 13);
-            this.labelTotal.TabIndex = 3;
+            this.labelTotal.TabIndex = 4;
             this.labelTotal.Text = "Toplam:";
             // 
             // txtTotal
@@ -213,7 +237,7 @@ namespace MiniMarket
             this.txtTotal.Name = "txtTotal";
             this.txtTotal.ReadOnly = true;
             this.txtTotal.Size = new System.Drawing.Size(123, 20);
-            this.txtTotal.TabIndex = 4;
+            this.txtTotal.TabIndex = 5;
             this.txtTotal.Text = "0.00";
             // 
             // btnCheckout
@@ -221,7 +245,7 @@ namespace MiniMarket
             this.btnCheckout.Location = new System.Drawing.Point(271, 254);
             this.btnCheckout.Name = "btnCheckout";
             this.btnCheckout.Size = new System.Drawing.Size(123, 40);
-            this.btnCheckout.TabIndex = 5;
+            this.btnCheckout.TabIndex = 6;
             this.btnCheckout.Text = "Satın Al";
             this.btnCheckout.UseVisualStyleBackColor = true;
             this.btnCheckout.Click += new System.EventHandler(this.btnCheckout_Click);
@@ -231,7 +255,7 @@ namespace MiniMarket
             this.btnHistory.Location = new System.Drawing.Point(6, 259);
             this.btnHistory.Name = "btnHistory";
             this.btnHistory.Size = new System.Drawing.Size(176, 35);
-            this.btnHistory.TabIndex = 6;
+            this.btnHistory.TabIndex = 7;
             this.btnHistory.Text = "📜 İşlem Geçmişi";
             this.btnHistory.UseVisualStyleBackColor = true;
             this.btnHistory.Click += new System.EventHandler(this.btnHistory_Click);
@@ -298,7 +322,7 @@ namespace MiniMarket
             this.btnAddBalance.UseVisualStyleBackColor = true;
             this.btnAddBalance.Click += new System.EventHandler(this.btnAddBalance_Click);
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -308,9 +332,9 @@ namespace MiniMarket
             this.Controls.Add(this.groupBoxWallet);
             this.Controls.Add(this.groupBoxCart);
             this.Controls.Add(this.groupBoxProducts);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Mini Market Sistemi v2.1";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.groupBoxProducts.ResumeLayout(false);
             this.groupBoxProducts.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).EndInit();
@@ -331,11 +355,13 @@ namespace MiniMarket
         private System.Windows.Forms.DataGridView dgvProducts;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnEditProduct;
+        private System.Windows.Forms.Button btnDeleteProduct;
         private System.Windows.Forms.NumericUpDown nudQuantity;
         private System.Windows.Forms.Label labelQuantity;
         private System.Windows.Forms.GroupBox groupBoxCart;
         private System.Windows.Forms.DataGridView dgvCart;
         private System.Windows.Forms.Button btnRemove;
+        private System.Windows.Forms.Button btnDecreaseQuantity;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnCheckout;
         private System.Windows.Forms.Button btnHistory;

@@ -67,5 +67,73 @@ namespace MiniMarket.Tests
             Assert.Equal(60m, wallet.Balance);
             Assert.Equal(60m, storage.Balance);
         }
+
+        [Fact]
+        public void Deposit_ZeroAmount_ShouldFail()
+        {
+            // Arrange
+            var storage = new FakeStorageService { Balance = 50m };
+            var wallet = new WalletService(storage);
+
+            // Act
+            bool success = wallet.Deposit(0m);
+
+            // Assert
+            Assert.False(success);
+            Assert.Equal(50m, wallet.Balance);
+        }
+
+        [Fact]
+        public void Deposit_NegativeAmount_ShouldFail()
+        {
+            // Arrange
+            var storage = new FakeStorageService { Balance = 50m };
+            var wallet = new WalletService(storage);
+
+            // Act
+            bool success = wallet.Deposit(-10m);
+
+            // Assert
+            Assert.False(success);
+            Assert.Equal(50m, wallet.Balance);
+        }
+
+        [Fact]
+        public void Withdraw_ZeroAmount_ShouldFail()
+        {
+            // Arrange
+            var storage = new FakeStorageService { Balance = 50m };
+            var wallet = new WalletService(storage);
+
+            // Act
+            bool success = wallet.Withdraw(0m);
+
+            // Assert
+            Assert.False(success);
+            Assert.Equal(50m, wallet.Balance);
+        }
+
+        [Fact]
+        public void CanAfford_SufficientBalance_ShouldReturnTrue()
+        {
+            // Arrange
+            var storage = new FakeStorageService { Balance = 100m };
+            var wallet = new WalletService(storage);
+
+            // Act & Assert
+            Assert.True(wallet.CanAfford(100m));
+            Assert.True(wallet.CanAfford(50m));
+        }
+
+        [Fact]
+        public void CanAfford_InsufficientBalance_ShouldReturnFalse()
+        {
+            // Arrange
+            var storage = new FakeStorageService { Balance = 30m };
+            var wallet = new WalletService(storage);
+
+            // Act & Assert
+            Assert.False(wallet.CanAfford(50m));
+        }
     }
 }

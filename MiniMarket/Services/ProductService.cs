@@ -2,20 +2,25 @@ using System.Collections.Generic;
 using System.Linq;
 using MiniMarket.Models;
 
-namespace MiniMarket.Services
-{
-    public class ProductService
-    {
-        private readonly IStorageService _storageService;
-        private readonly List<Product> _products;
+namespace MiniMarket.Services;
 
-        public ProductService(IStorageService storageService)
-        {
-            _storageService = storageService;
-            _products = _storageService.LoadProducts();
-        }
+public class ProductService(IStorageService storageService)
+{
+    private readonly IStorageService _storageService = storageService;
+    private readonly List<Product> _products = storageService.LoadProducts();
 
         public IReadOnlyList<Product> GetAllProducts() => _products.AsReadOnly();
+
+        public List<string> GetCategories()
+        {
+            var categories = _products.Select(p => p.Category).Distinct().OrderBy(c => c).ToList();
+            // Ensure default categories are always available
+            foreach (var def in new[] { "Yiyecek", "İçecek", "Tatlı", "Genel" })
+            {
+                if (!categories.Contains(def)) categories.Add(def);
+            }
+            return categories;
+        }
 
         public List<Product> SearchProducts(string keyword)
         {
@@ -63,5 +68,4 @@ namespace MiniMarket.Services
             }
             return false;
         }
-    }
 }

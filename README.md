@@ -9,7 +9,7 @@ A modern, C#-based Mini Market shopping system designed to provide a rich checko
 
 ## 🚀 Key Features
 
-- **Clean Architecture & Service Layer**: Complete separation of UI (`Form1`), Business Logic (`ProductService`, `WalletService`, `CartService`, `ReceiptService`), and Persistence (`JsonStorageService`).
+- **Clean Architecture & Service Layer**: Complete separation of UI (`MainForm`), Business Logic (`ProductService`, `WalletService`, `CartService`, `ReceiptService`), and Persistence (`JsonStorageService`).
 - **JSON Data Persistence**: Automatic auto-saving and loading of product catalog, wallet balance, and purchase receipts to JSON files.
 - **Dynamic Cart Management**: Add/remove products seamlessly using `DataGridView` tables, quantity controls, and live cart total calculations.
 - **Catalog Search & Custom Products**: Live keyword search/filtering and dynamic new product creation window (`AddProductForm`).

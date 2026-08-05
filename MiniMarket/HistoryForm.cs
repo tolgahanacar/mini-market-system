@@ -6,17 +6,17 @@ using System.Windows.Forms;
 using MiniMarket.Models;
 using MiniMarket.Services;
 
-namespace MiniMarket
-{
-    public class HistoryForm : Form
-    {
-        private readonly ReceiptService _receiptService;
-        private DataGridView _dgvHistory = null!;
-        private Button _btnViewReceipt = null!;
-        private Button _btnClose = null!;
-        private List<SaleTransaction> _transactions;
+namespace MiniMarket;
 
-        public HistoryForm(ReceiptService receiptService)
+public class HistoryForm : Form
+{
+    private readonly ReceiptService _receiptService;
+    private DataGridView _dgvHistory = null!;
+    private Button _btnViewReceipt = null!;
+    private Button _btnClose = null!;
+    private List<SaleTransaction> _transactions;
+
+    public HistoryForm(ReceiptService receiptService)
         {
             _receiptService = receiptService;
             _transactions = _receiptService.GetTransactionHistory();
@@ -113,5 +113,4 @@ namespace MiniMarket
                 receiptForm.ShowDialog(this);
             }
         }
-    }
 }
